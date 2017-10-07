@@ -7,32 +7,21 @@
 
     <ul class="todos">
       <li class="todo" v-for="todo in todos" :class="{ isFinished: todo.finished }">
-        <label><input type="checkbox" v-model="todo.finished"> {{todo.id}} - {{todo.text}}</label>
+        <label><input type="checkbox" v-model="todo.finished">{{todo.text}}</label>
       </li>
     </ul>
   </div>
 </template>
 
 <script>
+
+var STORAGE_KEY = 'vue-todo'
+
 export default {
   name: 'todos',
   data () {
     return {
-      todos: [
-        {
-          id: 1,
-          text: 'task1です',
-          finished: false
-        }, {
-          id: 2,
-          text: 'task2だよ',
-          finished: false
-        }, {
-          id: 3,
-          text: 'task3っすよ',
-          finished: false
-        }
-      ],
+      todos: JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'),
       newTask: {
         text: ''
       }
@@ -50,6 +39,14 @@ export default {
 
       this.todos.push(newTask)
       this.newTask.text = ''
+    }
+  },
+  watch: {
+    todos: {
+      handler: function (todos) {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(todos))
+      },
+      deep: true
     }
   }
 }
