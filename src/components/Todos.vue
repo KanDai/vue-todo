@@ -8,6 +8,7 @@
     <ul class="todos">
       <li class="todo" v-for="todo in filteredTodos" :class="{ isFinished: todo.finished }">
         <label><input type="checkbox" v-model="todo.finished">{{todo.text}}</label>
+        <button value="delete" @click="">× 削除</button>
       </li>
     </ul>
 
@@ -89,10 +90,40 @@ ul {
   padding: 0;
 }
 
+.todos {
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  width: 100%;
+}
+
+.todo {
+  padding: 12px;
+  display: flex;
+}
+.todo:not(:last-child) {
+  border-bottom: 1px solid #ddd;
+}
+
+.todo label {
+  display: block;
+  width: 100%;
+}
 .todo.isFinished {
+  background: #eee;
+}
+.todo.isFinished label {
   text-decoration: line-through;
   color: #999;
 }
 
+.todo button {
+  display: block;
+  margin-left: auto;
+  white-space: nowrap;
+  appearance: none;
+  border: 1px solid #ccc;
+  background: #fff;
+  border-radius: 4px;
+}
 
 </style>
