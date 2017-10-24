@@ -8,7 +8,7 @@
     <ul class="todos">
       <li class="todo" v-for="todo in filteredTodos" :class="{ isFinished: todo.finished }">
         <label><input type="checkbox" v-model="todo.finished">{{todo.text}}</label>
-        <button value="delete" @click="">× 削除</button>
+        <button value="delete" @click="removeTask(todo)">× 削除</button>
       </li>
     </ul>
 
@@ -50,6 +50,9 @@ export default {
 
       this.todos.push(newTask)
       this.newTask.text = ''
+    },
+    removeTask (todo) {
+      this.todos.splice(this.todos.indexOf(todo), 1)
     },
     saveSetting () {
       localStorage.setItem(STORAGE_KEY_SETTING, JSON.stringify(this.setting))
