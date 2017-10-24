@@ -6,22 +6,32 @@
     </div>
 
     <ul class="todos">
-      <li class="todo" v-for="todo in todos" :class="{ isFinished: todo.finished }">
+      <li class="todo" v-for="todo in filteredTodos" :class="{ isFinished: todo.finished }">
         <label><input type="checkbox" v-model="todo.finished">{{todo.text}}</label>
       </li>
     </ul>
+
+    <div>
+      <h3>設定</h3>
+      <label><input type="checkbox" @change="saveSetting" v-model="setting.showFinishedItem">終了したタスクを表示</label>
+    </div>
   </div>
 </template>
 
 <script>
 
 var STORAGE_KEY = 'vue-todo'
+var STORAGE_KEY_SETTING = 'vue-todo-setting'
+var DEFAULT_SETTING = {
+  showFinishedItem: true
+}
 
 export default {
   name: 'todos',
   data () {
     return {
       todos: JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'),
+      setting: JSON.parse(localStorage.getItem(STORAGE_KEY_SETTING)) || DEFAULT_SETTING,
       newTask: {
         text: ''
       }
@@ -39,6 +49,21 @@ export default {
 
       this.todos.push(newTask)
       this.newTask.text = ''
+    },
+    saveSetting () {
+      localStorage.setItem(STORAGE_KEY_SETTING, JSON.stringify(this.setting))
+    }
+  },
+  computed: {
+    filteredTodos: function () {
+      var setting = this.setting
+      return this.todos.filter(function (todo) {
+        if (setting.showFinishedItem) {
+          return todo
+        } else if (todo.finished === false) {
+          return todo
+        }
+      })
     }
   },
   watch: {
@@ -55,11 +80,14 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 
+h3 {
+  margin: 0 0 10px;
+}
+
 ul {
   list-style-type: none;
   padding: 0;
 }
-
 
 .todo.isFinished {
   text-decoration: line-through;
