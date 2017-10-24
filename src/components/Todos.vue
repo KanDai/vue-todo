@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div>
-      <input type="text" v-model="newTask.text" placeholder="add New Task">
+    <div class="form">
+      <input type="text" v-model="newTask.text" placeholder="Add New Task">
       <button value="Add" @click="addNewTask()">Add</button>
     </div>
 
@@ -93,6 +93,26 @@ ul {
   padding: 0;
 }
 
+.form {
+  display: flex;  
+}
+.form input {
+  width: 100%;
+  margin-right: 10px;
+  padding: 10px;
+  appearance: none;
+  border: 1px solid #ccc;
+  background: #fff;
+  border-radius: 6px;
+}
+.form button {
+  padding: 10px 30px;
+  appearance: none;
+  border: 1px solid #ccc;
+  background: #fff;
+  border-radius: 6px;
+}
+
 .todos {
   border: 1px solid #ddd;
   border-radius: 6px;
@@ -107,6 +127,9 @@ ul {
   border-bottom: 1px solid #ddd;
 }
 
+.todo input {
+  margin-right: 10px;
+}
 .todo label {
   display: block;
   width: 100%;
